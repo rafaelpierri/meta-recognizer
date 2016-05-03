@@ -2,10 +2,10 @@
 
 class Automaton {
 
-  constructor(rules, initialState, finalStates){
-    this.rules = rules;
+  constructor(initialState, finalStates, rules){
     this.currentState = initialState;
     this.finalStates = new Set(finalStates);
+    this.rules = rules || {};
   }
 
   accept(string){

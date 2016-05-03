@@ -11,9 +11,15 @@ var grammarRules = {
   5: {'B': 2, 'C': 2}
 }
 
-var automaton = new Automaton(grammarRules, 1, [5]);
+var automaton = new Automaton(1, [5], grammarRules);
 
 describe('Automaton', function() {
+  describe('#constructor(initialState, finalStates, grammarRules)', function(){
+    it("should be able to instantiate a new Automaton even if no rule is provided", function(){
+      var automaton = new Automaton(1, [5]);
+      assert.instanceOf(automaton, Automaton, 'this is an instance of an Automaton');
+    });
+  });
   describe('#recognize(string)', function () {
     it("should accept a grammar's sentence", function () {
       assert.isTrue(automaton.accept('B=X.') && automaton.accept('B=X.C=X.'));
