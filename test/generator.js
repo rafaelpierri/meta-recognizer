@@ -2,8 +2,36 @@
 
 var Generator = require('../generator');
 var assert = require('chai').assert;
+var Automaton = require('../app');
+var RegexMap = require('../regexMap');
 
 describe('Generator', function(){
+  describe('#buildAutomaton()', function(){
+    var generator = new Generator();
+    var automaton = generator.buildAutomaton('X=ab');
+    it('should create an automaton that recognizes "ab"', function(){
+      assert.isTrue(automaton.accept('ab'));
+    });
+  });
+  describe('#constructor(automatonState, automatonNextState)', function(){
+    var generator = new Generator();
+    it('should create an stack', function(){
+      assert.instanceOf(generator.stack, Array);
+    });
+    it('should assign 0 to automatonState if no value is provided', function(){
+      assert.isTrue(generator.automatonState==0);
+    });
+    it('should assign 1 to automatonNextState if no value is provided', function(){
+      assert.isTrue(generator.automatonNextState==1);
+    });
+    it('should create an automaton', function(){
+      assert.instanceOf(generator.automaton, Automaton);
+    });
+    it('should create a rule map', function(){
+      assert.instanceOf(generator.rules[1], RegexMap);
+    });
+  });
+
   describe('#semantic01(token)', function(){
     var generator = new Generator();
     generator.semantic01('a');

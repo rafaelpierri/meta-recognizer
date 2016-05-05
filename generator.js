@@ -7,12 +7,39 @@ class Generator {
 
   constructor(automatonState, automatonNextState){
     this.stack = [];
+    this.generatorState = 1;
     this.automatonState = automatonState || 0;
     this.automatonNextState = automatonNextState || 1;
     this.automaton = new Automaton(this.automatonState, [this.automatonNextState]);
+    this.rules = this.createRules();
   }
 
-  rules(token) {
+  buildAutomaton(string){
+    var tokens = string.split('');
+    for(var i = 0; i < tokens.length; i++){
+      var token = tokens[i];
+      var rule = this.rules[this.generatorState];
+      if(rule){
+        if(!rule[tokens[i]]){
+          var value = rule.get('Ø');  
+          i--;
+        }else{
+          var value= rule.get(token);
+        }
+        if(value){
+          this.currentState = value.nextState;
+          value.callback(token);
+        }else{
+          throw new Error('Automaton rejected: no next state for given token');
+        }
+      }else{
+        throw new Error('Automaton rejected: no rule for current state');
+      }
+    }
+    return this.automaton;
+  }
+
+  createRules() {
     var nonTerminal = new RegExp('[A-Z]');
     var terminal = new RegExp('[a-z]');
     var epsilon = 'Ø';
@@ -38,6 +65,7 @@ class Generator {
       12: new RegexMap([epsilon, {nextState: 13, callback: () => {}}]),
       13: new RegexMap(['}', {nextState: 7, callback: this.semantic05}])
     };
+    return r;
   }
 
   semantic00(){
