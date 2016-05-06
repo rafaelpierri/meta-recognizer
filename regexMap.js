@@ -2,13 +2,12 @@
 
 class RegexMap {
 
-  constructor(keyValueTuples){
+  constructor(){
     this.map = {};
     this.regexKeys = [];
-    if(keyValueTuples)
-      keyValueTuples.forEach((tuple) => {
-        this.add(tuple[0], tuple[1]);
-      });
+    Array.from(arguments).forEach((argument) => {
+      this.add(argument[0], argument[1]);
+    });
   }
 
   add(key, value){
