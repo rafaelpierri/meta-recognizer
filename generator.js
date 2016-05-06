@@ -20,14 +20,14 @@ class Generator {
       var token = tokens[i];
       var rule = this.rules[this.generatorState];
       if(rule){
-        if(!rule[tokens[i]]){
+        if(!rule.get(token)){
           var value = rule.get('Ø');  
           i--;
         }else{
           var value= rule.get(token);
         }
         if(value){
-          this.currentState = value.nextState;
+          this.generatorState = value.nextState;
           value.callback(token);
         }else{
           throw new Error('Automaton rejected: no next state for given token');
@@ -45,25 +45,25 @@ class Generator {
     var epsilon = 'Ø';
     var r = {
       1: new RegexMap([nonTerminal, {nextState: 2, callback: () => {}}]),
-      2: new RegexMap(['=', {nextState: 6, callback: this.semantic02}]),
-      6: new RegexMap([terminal, {nextState: 7, callback: this.semantic01}],
-                      [epsilon, {nextState: 7, callback: this.semantic01}],
-                      ['(', {nextState: 8, callback: this.semantic02}],
-                      ['[', {nextState: 10, callback: this.semantic03}],
-                      ['{', {nextState: 12, callback: this.semantic04}]),
-      7: new RegexMap([terminal, {nextState: 7, callback: this.semantic01}],
-                      [epsilon, {nextState: 7, callback: this.semantic01}],
-                      ['(',{nextState: 8, callback: this.semantic02}],
-                      ['[',{nextState: 10, callback: this.semantic03}],
-                      ['{',{nextState: 12, callback: this.semantic04}],
-                      ['.',{nextState: 5, callback: this.semantic05}],
-                      ['|',{nextState: 6, callback: this.semantic06}]),
+      2: new RegexMap(['=', {nextState: 6, callback: this.semantic02.bind(this)}]),
+      6: new RegexMap([terminal, {nextState: 7, callback: this.semantic01.bind(this)}],
+                      [epsilon, {nextState: 7, callback: this.semantic01.bind(this)}],
+                      ['(', {nextState: 8, callback: this.semantic02.bind(this)}],
+                      ['[', {nextState: 10, callback: this.semantic03.bind(this)}],
+                      ['{', {nextState: 12, callback: this.semantic04.bind(this)}]),
+      7: new RegexMap([terminal, {nextState: 7, callback: this.semantic01.bind(this)}],
+                      [epsilon, {nextState: 7, callback: this.semantic01.bind(this)}],
+                      ['(',{nextState: 8, callback: this.semantic02.bind(this)}],
+                      ['[',{nextState: 10, callback: this.semantic03.bind(this)}],
+                      ['{',{nextState: 12, callback: this.semantic04.bind(this)}],
+                      ['.',{nextState: 5, callback: this.semantic05.bind(this)}],
+                      ['|',{nextState: 6, callback: this.semantic06.bind(this)}]),
       8: new RegexMap([epsilon, {nextState: 9, callback: () => {}}]),
-      9: new RegexMap([')', {nextState: 7, callback: this.semantic05}]),
+      9: new RegexMap([')', {nextState: 7, callback: this.semantic05.bind(this)}]),
       10: new RegexMap([epsilon, {nextState: 11, callback: () => {}}]),
-      11: new RegexMap([']', {nextState: 7, callback: this.semantic05}]),
+      11: new RegexMap([']', {nextState: 7, callback: this.semantic05.bind(this)}]),
       12: new RegexMap([epsilon, {nextState: 13, callback: () => {}}]),
-      13: new RegexMap(['}', {nextState: 7, callback: this.semantic05}])
+      13: new RegexMap(['}', {nextState: 7, callback: this.semantic05.bind(this)}])
     };
     return r;
   }

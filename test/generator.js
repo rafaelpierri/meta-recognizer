@@ -8,7 +8,7 @@ var RegexMap = require('../regexMap');
 describe('Generator', function(){
   describe('#buildAutomaton()', function(){
     var generator = new Generator();
-    var automaton = generator.buildAutomaton('X=ab');
+    var automaton = generator.buildAutomaton('X=ab.');
     it('should create an automaton that recognizes "ab"', function(){
       assert.isTrue(automaton.accept('ab'));
     });
