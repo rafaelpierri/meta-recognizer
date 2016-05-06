@@ -41,7 +41,7 @@ class Automaton {
   }
 
   nextEpsilonTransition(){
-    return this.rules[this.currentState]['Ø'];
+    return this.rules[this.currentState] && this.rules[this.currentState]['Ø'];
   }
 
   makeEpsilonTransition(){

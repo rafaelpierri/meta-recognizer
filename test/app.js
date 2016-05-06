@@ -40,4 +40,15 @@ describe('Automaton', function() {
       assert(automaton.rules[6]['b']==7);
     });
   });
+  describe('#nextEpsilonTransition()', function () {
+    var grammarRules = {
+      0: {'a': 2},
+      2: {'b': 3},
+      3: {'Ø': 1}
+    }
+    var automaton = new Automaton(3, [1], grammarRules);
+    it("should should whether there is an available epsilon transition or not", function () {
+      assert.isTrue(automaton.nextEpsilonTransition()==1);   
+    });
+  });
 });
