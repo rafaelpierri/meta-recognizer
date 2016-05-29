@@ -7,9 +7,9 @@ var RegexMap = require('../regexMap');
 
 describe('Generator', function(){
   describe('#buildAutomaton()', function(){
-    var generator = new Generator();
-    var automaton = generator.buildAutomaton('X=ab.');
     it('should create an automaton that recognizes "ab"', function(){
+      var generator = new Generator();
+      var automaton = generator.buildAutomaton('X=ab.');
       assert.isTrue(automaton.accept('ab'));
     });
   });
@@ -127,9 +127,6 @@ describe('Generator', function(){
     });
     it('should have the tuple removed from the stack', function(){
       assert.isTrue(generator.stack.length==0);
-    });
-    it('should make a submachine return', function(){
-      assert.isTrue(false);
     });
   });
 });

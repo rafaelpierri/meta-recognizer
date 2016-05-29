@@ -117,7 +117,6 @@ class Generator {
     var tuple = this.stack.pop();
     this.automaton.addRule(this.automatonState, 'Ø', tuple.right);
     this.automatonState = tuple.right;
-    //TODO: make a submachine return (???)
   }
 }
 
