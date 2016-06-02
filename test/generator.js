@@ -6,13 +6,7 @@ var Automaton = require('../app');
 var RegexMap = require('../regexMap');
 
 describe('Generator', function(){
-  describe('#buildAutomaton()', function(){
-    it('should create an automaton that recognizes "ab"', function(){
-      var generator = new Generator();
-      var automaton = generator.buildAutomaton('X=ab.');
-      assert.isTrue(automaton.accept('ab'));
-    });
-  });
+
   describe('#constructor(automatonState, automatonNextState)', function(){
     var generator = new Generator();
     it('should create an stack', function(){
@@ -27,14 +21,11 @@ describe('Generator', function(){
     it('should create an automaton', function(){
       assert.instanceOf(generator.automaton, Automaton);
     });
-    it('should create a rule map', function(){
-      assert.instanceOf(generator.rules[1], RegexMap);
-    });
   });
 
-  describe('#semantic01(token)', function(){
+  describe('#newTerminal(token)', function(){
     var generator = new Generator();
-    generator.semantic01('a');
+    generator.newTerminal('a');
     it('should create a new state transition from automatonState to automatonNextState for a given token', function(){
       assert.isTrue(generator.automaton.rules[0]['a']==1);
     });
@@ -45,9 +36,9 @@ describe('Generator', function(){
       assert.isTrue(generator.automatonState==1);
     });
   });
-  describe('#semantic02()', function(){
+  describe('#newDefinition()', function(){
     var generator = new Generator();
-    generator.semantic02();
+    generator.newDefinition();
     it('should push automatonState and automatonNextState to the stack', function(){
       assert.isTrue(generator.stack[0].left==0&&generator.stack[0].right==1);
     });
@@ -58,9 +49,9 @@ describe('Generator', function(){
       assert.isTrue(generator.automatonState==0);
     });
   });
-  describe('#semantic03()', function(){
+  describe('#newOptionalSection()', function(){
     var generator = new Generator();
-    generator.semantic03();
+    generator.newOptionalSection();
     it('should keep automatonState with same value', function(){
       assert.isTrue(generator.automatonState==0);
     });
@@ -74,9 +65,9 @@ describe('Generator', function(){
       assert.isTrue(generator.automatonNextState==2);
     });
   });
-  describe('#semantic04()', function(){
+  describe('#newZeroOrMoreSection()', function(){
     var generator = new Generator();
-    generator.semantic04();
+    generator.newZeroOrMoreSection();
     it('should add an epsilon transition from automatonState to automatonNextState', function(){
       assert.isTrue(generator.automaton.rules[0]['Ø']==1);
     });
@@ -90,10 +81,10 @@ describe('Generator', function(){
       assert.isTrue(generator.automatonNextState==2);
     });
   });
-  describe('#semantic05()', function(){
+  describe('#definitionEnd()', function(){
     var generator = new Generator();
     generator.stack.push({left: 4, right: 5});
-    generator.semantic05();
+    generator.definitionEnd();
     it('should add an epsilon transition from automatonState to right side of tuple on top of stack', function(){
       assert.isTrue(generator.automaton.rules[0]['Ø']==5);
     });
@@ -104,10 +95,10 @@ describe('Generator', function(){
       assert.isTrue(generator.stack.length==0);
     });
   });
-  describe('#semantic06()', function(){
+  describe('#optionEnd()', function(){
     var generator = new Generator();
     generator.stack.push({left: 4, right: 5});
-    generator.semantic06();
+    generator.optionEnd();
     it('should add an epsilon transition from automatonState to right side of tuple on top of stack', function(){
       assert.isTrue(generator.automaton.rules[0]['Ø']==5);
     });
@@ -115,10 +106,10 @@ describe('Generator', function(){
       assert.isTrue(generator.automatonState==4);
     });
   });
-  describe('#semantic07()', function(){
+  describe('#nonTerminalEnd()', function(){
     var generator = new Generator();
     generator.stack.push({left: 4, right: 5});
-    generator.semantic07();
+    generator.nonTerminalEnd();
     it('should add an epsilon transition from automatonState to right side of tuple on top of stack', function(){
       assert.isTrue(generator.automaton.rules[0]['Ø']==5);
     });
