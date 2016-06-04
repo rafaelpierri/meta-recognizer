@@ -2,7 +2,7 @@
 
 var Generator = require('../generator');
 var assert = require('chai').assert;
-var Automaton = require('../app');
+var Automaton = require('../automaton');
 var RegexMap = require('../regexMap');
 
 describe('Generator', function(){

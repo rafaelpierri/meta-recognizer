@@ -1,6 +1,5 @@
 'use strict';
 
-var Automaton = require('./app');
 var Generator = require('./generator');
 
 class Gram {

@@ -1,6 +1,6 @@
 'use strict';
 
-var Automaton = require('../app.js');
+var Automaton = require('../automaton.js');
 var assert = require('chai').assert;
 
 var grammarRules = {

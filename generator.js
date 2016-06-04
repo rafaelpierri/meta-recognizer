@@ -1,7 +1,7 @@
 'use strict';
 
 var RegexMap = require('./regexMap');
-var Automaton = require('./app');
+var Automaton = require('./automaton');
 
 class Generator {
 
