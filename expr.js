@@ -6,22 +6,22 @@ class Expr {
     this.tokens = tokens;
     this.currentState = 6;
     this.rules = {
-      6 : { 'terminal': {state: 7, callback: ()=>{}},
+      6 : { 'terminal': {state: 7, callback: this.generator.newTerminal.bind(this.generator)},
             'nonTerminal': {state: 7, callback: ()=>{}},
             'Ø': {state: 7, callback: ()=>{}},
-            '(': {state: 8, callback: ()=>{}}, 
-            '[': {state: 10, callback: ()=>{}}, 
-            '{': {state: 12, callback: ()=>{}} },
-      7 : { 'terminal': {state: 7, callback: ()=>{}},
+            '(': {state: 8, callback: this.generator.newDefinition.bind(this.generator)}, 
+            '[': {state: 10, callback: this.generator.newOptionalSection.bind(this.generator)}, 
+            '{': {state: 12, callback: this.generator.newZeroOrMoreSection.bind(this.generator)} },
+      7 : { 'terminal': {state: 7, callback: this.generator.newTerminal.bind(this.generator)},
             'nonTerminal': {state: 7, callback: ()=>{}},
             'Ø': {state: 7, callback: ()=>{}}, 
-            '|': {state: 6, callback: ()=>{}},
-            '(': {state: 8, callback: ()=>{}}, 
-            '[': {state: 10, callback: ()=>{}}, 
-            '{': {state: 12, callback: ()=>{}} },
-      8 : { ')': {state: 7, callback: ()=>{}}},
-      10 : { ']': {state: 7, callback: ()=>{}} },
-      12 : { '}': {state: 7, callback: ()=>{}} }
+            '|': {state: 6, callback: this.generator.optionEnd.bind(this.generator)},
+            '(': {state: 8, callback: this.generator.newDefinition.bind(this.generator)}, 
+            '[': {state: 10, callback: this.generator.newOptionalSection.bind(this.generator)}, 
+            '{': {state: 12, callback: this.generator.newZeroOrMoreSection.bind(this.generator)} },
+      8 : { ')': {state: 7, callback: this.generator.definitionEnd.bind(this.generator)}},
+      10 : { ']': {state: 7, callback: this.generator.definitionEnd.bind(this.generator)} },
+      12 : { '}': {state: 7, callback: this.generator.definitionEnd.bind(this.generator)} }
     };
   }
 
