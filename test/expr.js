@@ -23,4 +23,12 @@ describe('Expr', function() {
       expect(result['b']).to.be.equal(2);
     }); 
   });
+  describe('#consumeTokens()', function(){
+    it('should make a simple expression recognizer', function(){
+      var generator = new Generator();
+      var expression = new Expr(generator, [{type: 'terminal', value: 'a'}]);
+      expression.consumeTokens();
+      expect(generator.automaton.accept('a')).to.be.true;
+    }); 
+  });
 }); 

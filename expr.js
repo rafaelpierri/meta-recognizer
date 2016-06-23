@@ -24,7 +24,7 @@ class Expr {
     };
     var orRule = {'|': {state: 6, callback: this.generator.optionEnd.bind(this.generator)}};
     this.rules = {
-      6 : this.expressionRule,
+      6 : expressionRule,
       7 : this.merge(expressionRule, orRule),
       8 : {  ')': {state: 7, callback: this.generator.definitionEnd.bind(this.generator)}},
       10 : { ']': {state: 7, callback: this.generator.definitionEnd.bind(this.generator)} },
@@ -35,7 +35,7 @@ class Expr {
   changeState(token){
     var state = this.getNextState(token.type);
     this.currentState = state.state;
-    state.callback();
+    state.callback(token.value);
     return this.currentState==666;
   }
 
