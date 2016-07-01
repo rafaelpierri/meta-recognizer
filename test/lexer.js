@@ -193,6 +193,17 @@ describe('Lexer', function() {
                     tokens[6].type=='aggregate'   &&
                     tokens[7].type=='dot');
     });
+    it("should parse a string in a slightly more complex wirth notation", function(){
+      var tokens = lexer.tokenize('X=(aa|b).');
+      assert.isTrue(tokens[0].type=='nonTerminal' &&
+                    tokens[1].type=='assign'      &&
+                    tokens[2].type=='aggregate'   &&
+                    tokens[3].type=='terminal'    &&
+                    tokens[4].type=='pipe'        &&
+                    tokens[5].type=='terminal'    &&
+                    tokens[6].type=='aggregate'   &&
+                    tokens[7].type=='dot');
+    });
     it("should parse a string in wirth notation and ignore whites", function(){
       var tokens = lexer.tokenize('X=(a|   b).');
       assert.isTrue(tokens[0].type=='nonTerminal' &&

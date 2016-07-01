@@ -14,9 +14,12 @@ class Generator {
   }
 
   newTerminal(token){
-    this.automaton.addRule(this.automatonState, token, this.automatonNextState);
-    this.automatonState = this.automatonNextState;
-    this.automatonNextState++;
+    var characters = token.split('');
+    characters.forEach((character) => {
+      this.automaton.addRule(this.automatonState, character, this.automatonNextState);
+      this.automatonState = this.automatonNextState;
+      this.automatonNextState++;
+    });
   }
   
   newDefinition(token){
@@ -54,31 +57,6 @@ class Generator {
     this.automaton.addRule(this.automatonState, 'Ø', tuple.right);
     this.automatonState = tuple.right;
   }
-
-  /*buildAutomaton(string){
-    var tokens = string.split('');
-    for(var i = 0; i < tokens.length; i++){
-      var token = tokens[i];
-      var rule = this.rules[this.generatorState];
-      if(rule){
-        if(!rule.get(token)){
-          var value = rule.get('Ø');  
-          i--;
-        }else{
-          var value= rule.get(token);
-        }
-        if(value){
-          this.generatorState = value.nextState;
-          value.callback(token);
-        }else{
-          throw new Error('Automaton rejected: no next state for given token');
-        }
-      }else{
-        throw new Error('Automaton rejected: no rule for current state');
-      }
-    }
-    return this.automaton;
-  }*/
 
 }
 
