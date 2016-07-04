@@ -20,7 +20,7 @@ class Gram {
   changeState(token){
     var state = this.getNextState(token.type);
     this.currentState = state.state;
-    state.callback();
+    state.callback(token);
   } 
 
   getRule(){ return this.rules[this.currentState]; }
@@ -37,7 +37,7 @@ class Gram {
   }
 
   assignAndConsumeExpression(token){
-    this.generator.newDefinirion(token);
+    this.generator.newDefinition(token);
     var expr = new Expr(this.generator, this.tokens);
     expr.consumeTokens();
   }

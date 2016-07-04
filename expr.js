@@ -18,9 +18,10 @@ class Expr {
       '(': {state: 8, callback: this.generator.newDefinition.bind(this.generator)}, 
       '[': {state: 10, callback: this.generator.newOptionalSection.bind(this.generator)}, 
       '{': {state: 12, callback: this.generator.newZeroOrMoreSection.bind(this.generator)},
-      ')': {state: 666, callback: this.abort.bind(this)},
-      ']': {state: 666, callback: this.abort.bind(this)},
-      '}': {state: 666, callback: this.abort.bind(this)}
+      ')': {state: 666, callback: () => {}},
+      ']': {state: 666, callback: () => {}},
+      '}': {state: 666, callback: () => {}},
+      'dot': {state: 666, callback: () => {}}
     };
     var orRule = {'|': {state: 6, callback: this.generator.optionEnd.bind(this.generator)}};
     this.rules = {
@@ -36,7 +37,12 @@ class Expr {
     var state = this.getNextState(token.type);
     this.currentState = state.state;
     state.callback(token.value);
-    return this.currentState==666;
+    if(this.currentState==666){
+      this.abort(token);
+      return false;
+    }else{
+      return true;
+    }
   }
 
   abort(token){
