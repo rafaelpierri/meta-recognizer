@@ -23,7 +23,7 @@ class Expr {
       '}': {state: 666, callback: () => {}},
       'dot': {state: 666, callback: () => {}}
     };
-    var orRule = {'|': {state: 6, callback: this.generator.optionEnd.bind(this.generator)}};
+    var orRule = {'pipe': {state: 6, callback: this.generator.optionEnd.bind(this.generator)}};
     this.rules = {
       6 : expressionRule,
       7 : this.merge(expressionRule, orRule),
@@ -39,9 +39,9 @@ class Expr {
     state.callback(token.value);
     if(this.currentState==666){
       this.abort(token);
-      return false;
-    }else{
       return true;
+    }else{
+      return false;
     }
   }
 

@@ -53,7 +53,9 @@ class Automaton {
   }
 
   addRule(currentState, token, nextState){
-    var rule = {} 
+    var rule = this.rules[currentState];
+    if(!rule)
+      rule = {} 
     rule[token] = nextState;
     this.rules[currentState] = rule; 
   }

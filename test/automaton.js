@@ -39,6 +39,10 @@ describe('Automaton', function() {
       automaton.addRule(6, 'b', 7);
       assert(automaton.rules[6]['b']==7);
     });
+    it("should add a new rule to the same current state and previous rule must prevail", function () {
+      automaton.addRule(6, 'c', 8);
+      assert(automaton.rules[6]['b']==7);
+    });
   });
   describe('#nextEpsilonTransition()', function () {
     var grammarRules = {
