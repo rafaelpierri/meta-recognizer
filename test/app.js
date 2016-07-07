@@ -5,6 +5,10 @@ var expect = require('chai').expect;
 
 describe('app', () => {
   describe('#app(string)', () => {
+    it('should admit X=ab(cd|ef)|[g|h{ij|k}]{m}|{n}. and recognize abef', () => {
+      var recognizer = app('X=ab(cd|ef)|[g|h{ij|k}]{m}|{n}.');
+      expect(recognizer.accept('abef')).to.be.true;
+    });
     it('should admit X={a}c. and recognize aaac', () => {
       var recognizer = app('X={a}c.');
       expect(recognizer.accept('aaac')).to.be.true;
