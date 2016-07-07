@@ -7,6 +7,14 @@ class Expr {
     return obj;
   }
 
+  loop(fn){
+    return (token) => {
+      fn(token);
+      var expr = new Expr(this.generator, this.tokens);
+      expr.consumeTokens();
+    };
+  }
+
   constructor(generator, tokens){
     this.generator = generator;
     this.tokens = tokens;
@@ -15,9 +23,9 @@ class Expr {
       'terminal': {state: 7, callback: this.generator.newTerminal.bind(this.generator)},
       'nonTerminal': {state: 7, callback: ()=>{}},
       'Ø': {state: 7, callback: ()=>{}},
-      '(': {state: 8, callback: this.generator.newDefinition.bind(this.generator)}, 
-      '[': {state: 10, callback: this.generator.newOptionalSection.bind(this.generator)}, 
-      '{': {state: 12, callback: this.generator.newZeroOrMoreSection.bind(this.generator)},
+      '(': {state: 8, callback: this.loop(this.generator.newDefinition.bind(this.generator)).bind(this)}, 
+      '[': {state: 10, callback: this.loop(this.generator.newOptionalSection.bind(this.generator)).bind(this)}, 
+      '{': {state: 12, callback: this.loop(this.generator.newZeroOrMoreSection.bind(this.generator)).bind(this)},
       ')': {state: 666, callback: () => {}},
       ']': {state: 666, callback: () => {}},
       '}': {state: 666, callback: () => {}},
@@ -34,6 +42,8 @@ class Expr {
   }
 
   changeState(token){
+    if(token.type == 'aggregate')
+      token.type= token.value;
     var state = this.getNextState(token.type);
     this.currentState = state.state;
     state.callback(token.value);

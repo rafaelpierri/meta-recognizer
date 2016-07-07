@@ -45,9 +45,7 @@ class Lexer {
       return this.aggregate;
     if(this.isUpperCase(character))
       return this.nonTerminal;
-    if(this.isLowerCase(character))
-      return this.terminal;
-    return undefined;
+    return this.terminal;
   }
 
   //recognizers
