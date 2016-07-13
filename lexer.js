@@ -20,7 +20,7 @@ class Lexer {
 
   generateToken(character){
     var nextState = this.nextState(character);
-    if(this.state==nextState){
+    if(this.state==nextState && (this.state==this.terminal || this.state==this.nonTerminal) || this.word == ''){
       this.word += character;
     }else{
       this.pushToken();
